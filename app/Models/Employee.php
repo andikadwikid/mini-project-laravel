@@ -11,13 +11,26 @@ class Employee extends Model
 
     protected $guarded = [];
 
+    protected $table = 'employees';
+
     public function attendances()
     {
-        return $this->hasMany(Attendance::class);
+        return $this->hasMany(Attendance::class, 'employee_id');
     }
 
     public function divisions()
     {
-        return $this->belongsTo(Division::class);
+
+        return $this->belongsTo(Division::class, 'division_id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasOne(Schedule::class, 'employee_id');
+    }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class, 'employee_id');
     }
 }

@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-    <h1>Create Employee</h1>
+    <h1>Edit Employee</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="#">Forms</a></div>
@@ -10,13 +10,14 @@
     <div class="row">
         <div class="col-12 col-md-6 col-lg-6">
             <div class="card">
-                <form method="POST" action="{{ route('division.store') }}">
+                <form method="POST" action="{{ route('division.update', $division->id) }}">
+                    @method('PUT')
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                                value="{{ old('name') }}" required>
+                                value="{{ old('name', $division->name) }}" required>
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

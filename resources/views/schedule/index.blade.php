@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-    <h1>Division Table</h1>
+    <h1>Report Table</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="#">Components</a></div>
@@ -24,7 +24,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <a href="{{ route('division.create') }}" class="btn btn-primary">Create Division</a>
+                    <a href="{{ route('schedule.create') }}" class="btn btn-primary">Create schedule</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -32,31 +32,47 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>Hari Kerja</th>
+                                <th>Masuk Kerja</th>
                                 <th>Action</th>
                             </tr>
-                            @foreach ($divisions as $division)
+                            @foreach ($schedules as $schedule)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $division->name }}</td>
+                                    <td>{{ $schedule->employee->name }}</td>
+                                    <td>{{ $schedule->start_date }}</td>
+                                    <td>{{ $schedule->start_time }}</td>
                                     <td>
-                                        <a href="{{ route('division.edit', $division->id) }}"
-                                            class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('division.destroy', $division->id) }}" method="POST"
+                                        <a href="{{ route('schedule.edit', $schedule->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('schedule.destroy', $schedule->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button class="btn btn-danger btn-sm">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
-
                         </table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <nav class="d-inline-block">
-                        {{ $divisions->links() }}
+                        <ul class="pagination mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1 <span
+                                        class="sr-only">(current)</span></a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
                     </nav>
                 </div>
             </div>

@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Division extends Model
+class Schedule extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
     protected $guarded = [];
 
-    protected $table = 'divisions';
+    protected $table = 'schedules';
 
-    public function employees()
+    public function employee()
     {
-        //divisi memiliki banyak karyawan
-        return $this->hasMany(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 }

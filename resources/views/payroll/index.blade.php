@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-    <h1>Division Table</h1>
+    <h1>Report Table</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="#">Components</a></div>
@@ -24,7 +24,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <a href="{{ route('division.create') }}" class="btn btn-primary">Create Division</a>
+                    <a href="{{ route('payroll.create') }}" class="btn btn-primary">Create Payroll</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -32,31 +32,42 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
+                                <th>Jumlah Hari Kerja</th>
+                                <th>Jumlah absensi</th>
+                                <th>Jumlah terlambat</th>
+                                <th>Jumlah gaji</th>
+                                <th>Total Gaji</th>
+                                <th>Date</th>
                                 <th>Action</th>
                             </tr>
-                            @foreach ($divisions as $division)
+                            @foreach ($payrolls as $payroll)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $division->name }}</td>
+                                    <td>{{ $payroll->employee->name }}</td>
+                                    <td>{{ $payroll->total_days }}</td>
+                                    <td>{{ $payroll->count_absent }}</td>
+                                    <td>{{ $payroll->count_late }}</td>
+                                    <td>{{ $payroll->salary }}</td>
+                                    <td>{{ $payroll->total_salary }}</td>
+                                    <td>{{ $payroll->date }}</td>
                                     <td>
-                                        <a href="{{ route('division.edit', $division->id) }}"
-                                            class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('division.destroy', $division->id) }}" method="POST"
+                                        <a href="{{ route('payroll.edit', $payroll->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('payroll.destroy', $payroll->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button class="btn btn-danger btn-sm">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
-
                         </table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <nav class="d-inline-block">
-                        {{ $divisions->links() }}
+                        {{ $payrolls->links() }}
                     </nav>
                 </div>
             </div>

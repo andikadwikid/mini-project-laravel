@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends Model
+class Payroll extends Model
 {
     use HasFactory;
 
@@ -13,11 +13,10 @@ class Attendance extends Model
 
     protected $guarded = [];
 
-    protected $table = 'attendances';
+    protected $table = 'payrolls';
 
-    public function employee()
-    {
+    public function employee(){
+        // payroll memiliki relasi one to many dengan employee
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-
 }

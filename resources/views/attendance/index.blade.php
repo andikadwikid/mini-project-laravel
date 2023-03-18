@@ -8,34 +8,78 @@
     </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success my-2">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger my-2">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
 
-            <form action="" class="d-flex flex-row mb-3">
+            <form action="{{ route('attendance.index') }}" class="d-flex flex-row mb-3">
                 <input type="date" class="form-control mr-2" name="start_date">
                 <input type="date" class="form-control mr-2" name="end_date">
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
 
             <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <h4>Simple Table</h4>
-                    <a href="#" class="btn btn-primary">Create Employee</a>
-                </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-md">
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Tanggal Lahir</th>
-                                <th>Address</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Division</th>
+                                <th>Waktu Masuk</th>
+                                <th>Waktu Pulang</th>
+                                <th>Tanggal</th>
+                                <th>Terlambat</th>
+                                <th>Hadir</th>
                                 <th>Action</th>
                             </tr>
-                            <tr>
+                            @foreach ($attendances as $attendance)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $attendance->employee->name }}</td>
+                                    <td>{{ $attendance->checkin_time }}</td>
+                                    <td>{{ $attendance->checkout_time ?: '-' }}</td>
+                                    <td>{{ $attendance->date }}</td>
+                                    <td>
+                                        @if ($attendance->late == true)
+                                            <span class="badge badge-danger">Terlambat</span>
+                                        @else
+                                            <span class="badge badge-success">Tidak Terlambat</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{-- {{ dd($attendance->absense) }} --}}
+                                        @if ($attendance->absent == true)
+                                            <span class="badge badge-success">Hadir</span>
+                                        @else
+                                            <span class="badge badge-danger">Tidak Hadir</span>
+                                        @endif
+
+                                    </td>
+                                    @if (!$attendance->checkout_time)
+                                        <td>
+                                            <form action="{{ route('attendance.checkout', $attendance->id) }}"
+                                                method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-warning">Pulang</button>
+                                            </form>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                            {{-- <tr>
                                 <td>1</td>
                                 <td>Irwansyah Saputra</td>
                                 <td>2017-01-09</td>
@@ -46,27 +90,14 @@
                                     <div class="badge badge-success">Active</div>
                                 </td>
                                 <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
+                            </tr> --}}
 
                         </table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <nav class="d-inline-block">
-                        <ul class="pagination mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1 <span
-                                        class="sr-only">(current)</span></a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
+                        {{ $attendances->links() }}
                     </nav>
                 </div>
             </div>

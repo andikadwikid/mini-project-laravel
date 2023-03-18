@@ -17,11 +17,13 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('date_of_birth');
-            $table->string('address');
+            $table->text('address');
             $table->string('phone');
             $table->string('email');
-            $table->foreignId('division_id')->constrained('divisions');
+            $table->bigInteger('division_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade');
         });
     }
 

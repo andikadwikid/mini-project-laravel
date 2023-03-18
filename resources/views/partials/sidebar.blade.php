@@ -1,14 +1,18 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Stisla</a>
+            <a href="index.html">Mini Project</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">St</a>
+            <a href="index.html">MP</a>
         </div>
         <ul class="sidebar-menu">
             <li
-                class="dropdown {{ request()->is('dashboard/division') ? 'active' : '' }} {{ request()->is('dashboard/employee') ? 'active' : '' }}">
+                class="dropdown
+                {{ request()->is('dashboard/division') ? 'active' : '' }}
+                {{ request()->is('dashboard/employee') ? 'active' : '' }}
+                {{ request()->is('dashboard/schedule') ? 'active' : '' }}
+                {{ request()->is('dashboard/payroll') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Master</span></a>
 
@@ -17,6 +21,10 @@
                             href="{{ route('division.index') }}">Division</a></li>
                     <li class="{{ request()->is('dashboard/employee') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('employee.index') }}">Employee</a></li>
+                    <li class="{{ request()->is('dashboard/schedule') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('schedule.index') }}">Schedule</a></li>
+                    <li class="{{ request()->is('dashboard/payroll') ? 'active' : '' }}"><a class="nav-link"
+                            href="{{ route('payroll.index') }}">Payroll</a></li>
                 </ul>
             </li>
             <li class="{{ request()->is('dashboard/attendance/create') ? 'active' : '' }}"><a class="nav-link"

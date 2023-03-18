@@ -8,11 +8,22 @@
     </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success my-2">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger my-2">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h4>Simple Table</h4>
                     <a href="{{ route('employee.create') }}" class="btn btn-primary">Create Employee</a>
                 </div>
                 <div class="card-body">
@@ -21,15 +32,35 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Tanggal Lahir</th>
+                                {{-- <th>Tanggal Lahir</th> --}}
                                 <th>Address</th>
                                 <th>Phone</th>
                                 <th>Email</th>
                                 <th>Division</th>
                                 <th>Action</th>
                             </tr>
-                            <tr>
-                                <td>1</td>
+                            @foreach ($employees as $employee)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $employee->name }}</td>
+                                    {{-- <td>{{ $employee->date_of_birth }}</td> --}}
+                                    <td>{{ $employee->address }}</td>
+                                    <td>{{ $employee->phone }}</td>
+                                    <td>{{ $employee->email }}</td>
+                                    <td>{{ $employee->divisions->name }}</td>
+                                    <td>
+                                        <a href="{{ route('employee.edit', $employee->id) }}"
+                                            class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('employee.destroy', $employee->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            {{-- <td>1</td>
                                 <td>Irwansyah Saputra</td>
                                 <td>2017-01-09</td>
                                 <td>Jl. Kebon Jeruk</td>
@@ -38,28 +69,14 @@
                                 <td>
                                     <div class="badge badge-success">Active</div>
                                 </td>
-                                <td><a href="#" class="btn btn-secondary">Detail</a></td>
-                            </tr>
+                                <td><a href="#" class="btn btn-secondary">Detail</a></td> --}}
 
                         </table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <nav class="d-inline-block">
-                        <ul class="pagination mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1 <span
-                                        class="sr-only">(current)</span></a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
+                        {{ $employees->links() }}
                     </nav>
                 </div>
             </div>
